@@ -34,6 +34,7 @@ bool issame(node* root1, node* root2){
 
 //main function
 int main(){
+	//1st input tree
 	node* root1=newNode(20);
 	root1->left=newNode(13);
 	root1->right=newNode(22);
@@ -43,6 +44,7 @@ int main(){
 	root1->right->left=newNode(21);
 	root1->right->right=newNode(25);
 	
+	//2nd input tree
 	node* root2=newNode(20);
 	root2->left=newNode(13);
 	root2->right=newNode(22);
