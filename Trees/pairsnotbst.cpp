@@ -1,3 +1,4 @@
+//Pairs violating BST property
 #include<iostream>
 #include<vector>
 #include<algorithm>
@@ -5,6 +6,7 @@
 #include<stack>
 using namespace std;
 
+//defining the tree node
 struct node
 {
 	int data;
@@ -12,6 +14,7 @@ struct node
 	node* right;
 };
 
+//creating new node
 node* newNode(int data)
 {
     node *temp = new node;
@@ -20,7 +23,8 @@ node* newNode(int data)
     temp->right = NULL;
     return temp;
 }
- 
+
+//declaring the structure of resulting pair
 struct result
 {
 	int val1;
@@ -29,6 +33,7 @@ struct result
 
 vector<int> s;
 
+//storing inorder traversal of the tree
 void inorder_pair_not_bst(node* root){
 	if(!root) return;
 	inorder_pair_not_bst(root->left);
@@ -37,31 +42,32 @@ void inorder_pair_not_bst(node* root){
 	return;			
 }
 
+//brute force
 void findpair(node* root){
-	inorder_pair_not_bst(root);
+	inorder_pair_not_bst(root);//store the inorder traversal of tree
 	if(s.empty()) return;
 	int k=s[0];
 	for(int i=1;i<s.size();i++)
 	{
-		if(s[i]<s[i-1]){
-			for(int j=0;j<i;j++){
-				if(s[i]<s[j])
-					cout<<s[j]<<" "<<s[i]<<endl;
-			}
+		for(int j=0;j<i;j++){
+			if(s[i]<s[j])
+				cout<<s[j]<<" "<<s[i]<<endl;
 		}
 	}
-return;
+	return;
 }
 
-
+//main function
 int main()
 {
+	//input tree
 	node *root = newNode(50);
-    root->left = newNode(30);
-    root->right = newNode(60);
-    root->left->left = newNode(20);
-    root->left->right = newNode(25);
-    root->right->left = newNode(10);
-    root->right->right = newNode(40);
-    findpair(root);
+	root->left = newNode(30);
+	root->right = newNode(60);
+	root->left->left = newNode(20);
+	root->left->right = newNode(25);
+	root->right->left = newNode(10);
+	root->right->right = newNode(40);
+	
+	findpair(root);
 }
