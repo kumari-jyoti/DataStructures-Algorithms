@@ -1,14 +1,23 @@
+/*Basic Tree Operations Contd
+1. Maximum Valued node
+2. The deepest node's parent
+3. The deepest node
+4. Deleting a node
+5. Number of leaves, half nodes, full nodes
+*/
 #include<iostream>
 #include<algorithm>
 #include<queue>
 using namespace std;
 
+//defining the tree node
 struct node{
 	int data;
 	node* left;
 	node* right;
 };
 
+//creating a new node
 node* newNode(int val){
 	struct node* pnode=new node;
 	pnode->data=val;
@@ -17,11 +26,13 @@ node* newNode(int val){
 	return pnode;
 }
 
+//finding if node is a leaf
 bool isleaf(node* root){
 	if(!root->left && !root->right) return true;
 	return false;
 }
 
+//finding the node having maximum values
 int findmax(node* root){
 	if(!root) return -1;
 	if(isleaf(root)) return root->data;
@@ -31,23 +42,7 @@ int findmax(node* root){
 	return(max(i,root->data));
 }
 
-node* deepestnode(node* root){
-	if(!root) return 0;
-	queue<node*> q;
-	q.push(root);
-	node* p;
-		while(!q.empty())
-		{
-			p=q.front();
-			q.pop();
-			if(p->left)
-				q.push(p->left);
-			if(p->right)
-				q.push(p->right);
-		}
-	return p;
-}
-
+//finding deepest node's parent
 node* deepestnodeparent(node* root){
 	if(!root) return 0;
 	queue<node*> q;
@@ -72,6 +67,15 @@ node* deepestnodeparent(node* root){
 		}
 	return parent;
 }
+
+//finding the deepest node
+node* deepestnode(node* root){
+	node* p=deepestnodeparent(root);
+	if(p->right) return p->right;
+	return p->left;
+}
+
+//deleting a node
 void deletebt(node* root, node* temp){
 	//find the deepest node's parent
 	node* q=deepestnodeparent(root);
@@ -92,20 +96,26 @@ void deletebt(node* root, node* temp){
 	}	
 }
 
+//checking if full node
 bool isfull(node* root){
 	if(root->right && root->left) return true;
 	return false;
 }
 
+//checking if half leaf node
 bool ishalf(node* root){
 	if((!root->left && root->right)||(root->left && !root->right)) return true;
 	else return false;
 }
+
+//finding number of full, half, leaf nodes
 int numofleaves(node* root){
 	if(!root) return 0;
+	//declare count of different types of nodes
 	int leaves=0;
 	int full=0;
 	int half=0;
+	//traverse level order and check type of every node
 	queue<node*> q;
 	q.push(root);
 	node* p;
@@ -126,15 +136,22 @@ int numofleaves(node* root){
 	return leaves;
 }
 
+//main function
 int main(){
+	//input tree
 	node* root=newNode(20);
 	root->left=newNode(13);
 	root->right=newNode(28);
 	root->left->left=newNode(5);
 	root->left->right=newNode(18);
-	node* q=root->right->left=newNode(21);
+	root->right->left=newNode(21);
 	root->right->right=newNode(25);
 	root->left->left->left=newNode(3);
+	
+	//input node for deletion
+	node* q=root->right->left;
+	
+	//operations
 	cout<<findmax(root)<<" this is max node "<<endl;
 	node* p;
 	p=deepestnode(root);
