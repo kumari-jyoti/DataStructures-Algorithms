@@ -1,11 +1,14 @@
 #include<iostream>
 #include<cstdlib>
 #include<queue>
+//level order and reverse level order
 #include<stack>
 using namespace std;
 
+//declare level 
 int level;
 
+//defining the tree-node
 struct tree_node
 {
 	int data;
@@ -13,6 +16,7 @@ struct tree_node
 	tree_node* right;
 };
 
+//creating new node
 tree_node* newNode(int val)
 {
 	tree_node* pnode=new tree_node;
@@ -22,13 +26,14 @@ tree_node* newNode(int val)
 	return pnode;
 }
 
+//printing in reverse level order
 void revlevelorder(tree_node* root){
 	if(!root) return;
 	queue<tree_node*> q;
-	stack<tree_node*> s;
+	stack<tree_node*> s;//for storing reversing level order 
 	q.push(root);
-	int nodecount;
-	//printing in down up order	
+	int nodecount;//keeps count of nodes at each level
+		
 	while(1)
 	{
 		nodecount=q.size();
@@ -36,13 +41,13 @@ void revlevelorder(tree_node* root){
 		while(nodecount>0)
 		{
 			tree_node* p=q.front();
-			s.push(p);
+			s.push(p);//traverse level order and keep pushing to the stack instead of printing
 			q.pop();
 			if(p->left) q.push(p->left);	
 			if(p->right) q.push(p->right);
 			nodecount--;
 		}
-							
+		//pop the stack if asked to reverse just each level
 	}
 	while(!s.empty()){
 			tree_node* p= s.top();
@@ -52,13 +57,14 @@ void revlevelorder(tree_node* root){
 		cout<<endl;
 }
 
+//level order traversal
 void levelorder(tree_node* root)
 {
 	if(!root) return;
 	queue<tree_node*> q;
 	q.push(root);
-	int nodecount;
-	//printing in normal order	
+	int nodecount;//keeps count of node at each level
+		
 	while(1)
 	{
 		nodecount=q.size();
@@ -73,13 +79,15 @@ void levelorder(tree_node* root)
 			nodecount--;
 		}
 		cout<<endl;					
-	}
-	
+	}	
 }
 
+//main function
 int main()
 {
+	//declaring root's level
 	level=0;
+	//input tree
 	tree_node* root=newNode(20);
 	root->left=newNode(13);
 	root->left->left=newNode(5);
@@ -87,6 +95,7 @@ int main()
 	root->left->right=newNode(15);
 	root->right->left=newNode(21);
 	root->right->right=newNode(25);
+	//traversals
 	levelorder(root);
 	revlevelorder(root);
 	return 0;
