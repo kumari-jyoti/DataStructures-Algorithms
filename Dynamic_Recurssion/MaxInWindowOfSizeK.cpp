@@ -25,29 +25,31 @@ void WindowMax(vector<int> arr,int n,int k){
 		cout<<arr[d.front()]<<" ";
 	}	
 }
-//finding max of values, not keys
-pair<int,int> get_max( map<int,int>& x ) {
-  using pairtype=std::pair<int,int>; 
-  return *max_element(x.begin(), x.end(), [] (const pairtype & p1, const pairtype & p2) {
-        return p1.second < p2.second;
-  }); 
-}
+
 //using self balanced bst, map too is a self bst
 void WindowMaxBST(vector<int> arr,int n,int k){
 	map<int,int> mymap;
 	//insert first k elements in the tree
 	for(int i=0;i<k;i++){
-		mymap.insert(pair<int,int> (i,arr[i]));
-	}
-		
-	auto it=get_max(mymap);
-	cout<<endl<<it.second<<" ";//max of first window
+		if(mymap.find(arr[i])==mymap.end())
+			mymap.insert(pair<int,int> (arr[i],1));
+		else
+			mymap.at(arr[i])++;
+	}		
+	auto it=max_element(mymap.begin(),mymap.end());
+	cout<<endl<<it->first<<" ";//max of first window
 	//remove ith element, inser i+kth element, extract max	
 	for(int i=0;i<n-k;i++){
-		mymap.erase(i);
-		mymap.insert(pair<int,int> (i+k,arr[i+k]));
-		it=get_max(mymap);
-		cout<<it.second<<" ";
+		if(mymap.at(arr[i])==1)
+			mymap.erase(arr[i]);
+		else
+			mymap.at(arr[i])--;
+		if(mymap.find(arr[i+k])!=mymap.end())
+			mymap.at(arr[i+k])++;
+		else
+			mymap.insert(pair<int,int> (arr[i+k],1));
+		it=max_element(mymap.begin(),mymap.end());
+		cout<<it->first<<" ";
 	}
 		
 }
